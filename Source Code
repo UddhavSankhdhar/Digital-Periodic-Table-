@@ -1,0 +1,867 @@
+#include<graphics.h>
+#include<iostream.h>
+#include<conio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<fstream.h>
+#include<string.h>
+#include<dos.h>
+
+#define load_time 3
+/*Loading box colour*/
+#define load_box MAGENTA
+
+fstream f;
+
+class element
+{
+  int at_no;
+  char symbol[5];
+  char name[15];
+  double at_wt;
+  float MP;
+  float BP;
+  double density;
+  int dyr;
+  char estate[10];
+    public:
+     /* void input()     /*function used while entering record into the binary file
+      {
+	cout<<"Add information accordingly"<<endl;
+	cout<<"Atomic no. "<<endl;
+	cin>>at_no;
+	cout<<"Name "<<endl;
+	gets(name);
+	cout<<"Symbol "<<endl;
+	gets(symbol);
+	cout<<"Atomic wt. "<<endl;
+	cin>>at_wt;
+	cout<<"MP "<<endl;
+	cin>>MP;
+	cout<<"BP "<<endl;
+	cin>>BP;
+	cout<<"Density "<<endl;
+	cin>>density;
+	cout<<"Year of Discovery "<<endl;
+	cin>>dyr;
+	cout<<"State at room temp. "<<endl;
+	gets(estate);
+      }                 */
+      void display()
+      {
+	gotoxy(0,0);
+
+	rectangle(360,150,510,300);
+	rectangle(355,145,515,305);
+
+	int height=textheight(symbol);
+	int width=textwidth(symbol);
+	int space=strlen(symbol);
+	settextstyle(10,0,7);
+	if(space==2)
+	   outtextxy(40-(width/2)+350,100-(height/2)+50,symbol);
+	else
+	   outtextxy(60-(width/2)+350,100-(height/2)+50,symbol);
+	settextstyle(3,0,2);
+	char temp[80];
+	outtextxy(25,90,name);
+	outtextxy(25,120,symbol);
+	moveto(25,150);
+	sprintf(temp,"Atomic Number: %d",at_no);
+	outtext(temp);
+	moveto(25,180);
+	sprintf(temp,"Atomic weight: %f",at_wt);
+	outtext(temp);
+	moveto(25,210);
+	sprintf(temp,"Density: %f",density);
+	outtext(temp);
+	moveto(25,240);
+	sprintf(temp,"Melting Point: %f",MP);
+	outtext(temp);
+	moveto(25,270);
+	sprintf(temp,"Boiling Point: %f",BP);
+	outtext(temp);
+	moveto(25,300);
+	sprintf(temp,"Year of Discovery: %d",dyr);
+	outtext(temp);
+      }
+      int Xs()             //Accessor function
+      {
+	return at_no;
+      }
+      void symdis(int x,int y)
+      {
+	settextstyle(8,0,1);
+	outtextxy(x+5,y+3,symbol);
+      }
+      int check(char y[]);
+
+ };
+ int element::check(char y[])
+      {
+       if(strlen(y)>3)
+       {
+	if(strcmpi(y,name)==0)
+	  return 1;
+	}
+       else if(strlen(y)<=3)
+       {
+	if(strcmp(y,symbol)==0)
+	  return 1;
+       }
+	  return 0;
+      }
+element e;
+
+  /*This program creates a box of a size specific for the loading
+     process*/
+
+void box(int x, int y)
+{
+  textcolor(MAGENTA);
+  gotoxy(x,y);
+   cprintf("�");
+
+  for(int i = 0;i<=40;i++)
+   cprintf("�");
+
+  cprintf("�");
+
+  gotoxy(x,y+1); cprintf("�"); gotoxy(x+42,y+1); cprintf("�");
+
+  gotoxy(x,y+2);
+  cprintf("�");
+
+  for(i=0;i<=40;i++)
+   cprintf("�");
+
+  cprintf("�");
+}
+
+void loading()
+{
+   clrscr();
+
+   /*Change the below values to set where the loading
+     text appears*/
+       int x = 35,y = 18;
+   /*The below values decide where the loading bar
+      appears*/
+      int bx = 18,by = 19;
+ //  �   the top-left coordinates of the box
+
+      int px = 37,py = 23;
+   /*Percentage coordinates*/
+
+   gotoxy(26,8);
+   cprintf("THE DIGITAL PERIODIC TABLE");
+
+   textcolor(CYAN+BLINK);
+   delay(400);
+   gotoxy(x,y);
+   cprintf("Loading");
+   delay(1000);
+   textcolor(CYAN);
+   gotoxy(x,y);
+   cprintf("Loading..");
+   delay(1500);
+
+   char design [4] = {'�','�','�','�'};
+
+   int colour [4] = {RED,YELLOW,GREEN,LIGHTGREEN};
+   /*Ordered list of colour for each design*/
+
+   box(bx,by);
+
+   for(int j = 0;j < 4;j++)
+    for(int i = 0; i<=40;i++)
+   {
+     textcolor(colour[j]);
+     gotoxy(i+bx+1,by+1);
+     cprintf("%c",design[j]);
+     gotoxy(px,py);
+     cprintf("%d %s",j*25+((i*5)/8),"%"); /* This line out here display the progress out of 100 and a percentage symbol*/
+     delay(load_time*10);  //Only with a delay, would you be able to see it load
+			     /*10, on the above line is simply a calibration factor*/
+   }
+}
+
+void periodic()
+{
+  line(0,200,612,200);
+  line(0,235,612,235);
+  line(0,270,612,270);
+  line(0,305,612,305);
+  line(0,340,612,340);
+  line(0,95,0,340);
+  line(34,95,34,340);
+  line(68,130,68,340);
+  line(612,95,612,340);
+  line(578,95,578,340);
+  line(544,130,544,340);
+  line(510,130,510,340);
+  line(476,130,476,340);
+  line(442,130,442,340);
+  line(408,130,408,340);
+  line(0,95,34,95);
+  line(408,130,612,130);
+  line(0,130,68,130);
+  line(0,165,68,165);
+  line(578,95,612,95);
+  line(408,165,612,165);
+  line(102,200,102,340);
+  line(136,200,136,340);
+  line(170,200,170,340);
+  line(204,200,204,340);
+  line(238,200,238,340);
+  line(272,200,272,340);
+  line(306,200,306,340);
+  line(340,200,340,340);
+  line(374,200,374,340);
+
+  line(102,360,578,360);
+  line(102,395,578,395);
+  line(102,430,578,430);
+  line(102,360,102,430);
+  line(578,360,578,430);
+
+  line(136,360,136,430);         // f-block
+  line(170,360,170,430);
+  line(204,360,204,430);
+  line(238,360,238,430);
+  line(272,360,272,430);
+  line(306,360,306,430);
+  line(340,360,340,430);
+  line(374,360,374,430);
+  line(408,360,408,430);
+  line(442,360,442,430);
+  line(476,360,476,430);
+  line(510,360,510,430);
+  line(544,360,544,430);
+
+  setfillstyle(SOLID_FILL,9); //group 2
+  for(int i=0;i<208;i=i+35)
+  {
+    floodfill(38,132+i,WHITE);
+  }
+  setfillstyle(SOLID_FILL,12); //group 1
+  for(i=0;i<208;i=i+35)
+  {
+    floodfill(2,132+i,WHITE);
+  }
+  setfillstyle(SOLID_FILL,1);  //group 18
+  for(i=0;i<203;i=i+35)
+  {
+    floodfill(610,97+i,WHITE);
+  }
+  setfillstyle(SOLID_FILL,7);
+  floodfill(610,330,WHITE);
+
+  setfillstyle(SOLID_FILL,10); //H
+  floodfill(2,97,WHITE);
+
+  for(i=0;i<135;i=i+35)        //grp 3,4,5,6,7,8,9,10,11,12
+  {
+   for(int j=0;j<334;j=j+34)
+   {
+    if((70+j>=272)&&(70+j<=374)&&(206+i>=305)&&(206+i<=340))
+    {
+     setfillstyle(SOLID_FILL,LIGHTGRAY);
+     floodfill(70+j,206+i,WHITE);
+    }
+    else
+    {
+      setfillstyle(SOLID_FILL,13);
+      floodfill(70+j,206+i,WHITE);
+    }
+   }
+  }
+  for(i=0;i<210;i=i+35)                //group 13
+  {
+    if((132+i>130)&&(132+i<=165))
+    {
+     setfillstyle(SOLID_FILL,2);
+     floodfill(420,132+i,WHITE);
+    }
+    else if((132+i>165)&&(132+i<=305))
+
+    {
+     setfillstyle(SOLID_FILL,11);
+     floodfill(420,132+i,WHITE);
+    }
+    else if((132+i>305)&&(132+i<=340))
+    {
+     setfillstyle(SOLID_FILL,7);
+     floodfill(420,132+i,WHITE);
+    }
+   }
+   for(i=0;i<210;i=i+35)               //group 14
+   {
+     if((132+i>130)&&(132+i<=165))
+     {
+      setfillstyle(SOLID_FILL,10);
+      floodfill(465,132+i,WHITE);
+     }
+     else if((132+i>165)&&(132+i<=235))
+     {
+      setfillstyle(SOLID_FILL,2);
+      floodfill(465,132+i,WHITE);
+     }
+     else if((132+i>235)&&(132+i<=340))
+     {
+      setfillstyle(SOLID_FILL,11);
+      floodfill(465,132+i,WHITE);
+     }
+    }
+   for(i=0;i<210;i=i+35)              //group 15
+   {
+    if((132+i>130)&&(132+i<=200))
+      {
+       setfillstyle(SOLID_FILL,10);
+       floodfill(495,132+i,WHITE);
+      }
+      else if((132+i>200)&&(132+i<=270))
+      {
+       setfillstyle(SOLID_FILL,2);
+       floodfill(495,132+i,WHITE);
+      }
+      else if((132+i>270)&&(132+i<=305))
+      {
+       setfillstyle(SOLID_FILL,11);
+       floodfill(495,132+i,WHITE);
+      }
+      else if((132+i>305)&&(132+i<=340))
+      {
+       setfillstyle(SOLID_FILL,7);
+       floodfill(495,132+i,WHITE);
+      }
+    }
+    for(i=0;i<210;i=i+35)         //group 16
+    {
+     if((132+i>130)&&(132+i<=235))
+     {
+      setfillstyle(SOLID_FILL,10);
+      floodfill(525,132+i,WHITE);
+     }
+     else if((132+i>235)&&(132+i<=270))
+     {
+      setfillstyle(SOLID_FILL,2);
+      floodfill(525,132+i,WHITE);
+     }
+     else if((132+i>270)&&(132+i<=305))
+     {
+      setfillstyle(SOLID_FILL,11);
+      floodfill(525,132+i,WHITE);
+     }
+     else if((132+i>305)&&(132+i<=340))
+     {
+      setfillstyle(SOLID_FILL,7);
+      floodfill(525,132+i,WHITE);
+     }
+   }
+   for(i=0;i<210;i=i+35)               //group 17
+   {
+    if((132+i>130)&&(132+i<=270))
+    {
+     setfillstyle(SOLID_FILL,10);
+     floodfill(555,132+i,WHITE);
+    }
+    else if((132+i>270)&&(132+i<=305))
+    {
+     setfillstyle(SOLID_FILL,2);
+     floodfill(555,132+i,WHITE);
+    }
+    else if((132+i>305)&&(132+i<=340))
+    {
+     setfillstyle(SOLID_FILL,7);
+     floodfill(555,132+i,WHITE);
+    }
+   }
+
+   ::f.open("pt.dat",ios::binary|ios::in);
+
+   while(!::f.eof())   //The following is display on the table
+     {
+       gotoxy(0,0);
+       ::f.read((char*)&::e,sizeof(::e));
+       if(::e.Xs()==1)
+	 ::e.symdis(0,95);
+       else if(::e.Xs()==2)
+	 ::e.symdis(578,95);
+       else if(::e.Xs()==3)
+	 ::e.symdis(0,130);
+       else if(::e.Xs()==4)
+	 ::e.symdis(34,130);
+       else if(::e.Xs()==11)
+	 ::e.symdis(0,165);
+       else if(::e.Xs()==12)
+	 ::e.symdis(34,165);
+       else if(::e.Xs()==5)
+	 ::e.symdis(12*34,130);
+       else if(::e.Xs()==6)
+	 ::e.symdis(13*34,130);
+       else if(::e.Xs()==7)
+	 ::e.symdis(14*34,130);
+       else if(::e.Xs()==8)
+	 ::e.symdis(15*34,130);
+       else if(::e.Xs()==9)
+	 ::e.symdis(16*34,130);
+       else if(::e.Xs()==10)
+	 ::e.symdis(17*34,130);
+       else if(::e.Xs()==13)
+	 ::e.symdis(12*34,165);
+       else if(::e.Xs()==14)
+	 ::e.symdis(13*34,165);
+       else if(::e.Xs()==15)
+	 ::e.symdis(14*34,165);
+       else if(::e.Xs()==16)
+	 ::e.symdis(15*34,165);
+       else if(::e.Xs()==17)
+	 ::e.symdis(16*34,165);
+       else if(::e.Xs()==18)
+	 ::e.symdis(17*34,165);
+       else if(::e.Xs()==31)
+	 ::e.symdis(12*34,200);
+       else if(::e.Xs()==32)
+	 ::e.symdis(13*34,200);
+       else if(::e.Xs()==33)
+	 ::e.symdis(14*34,200);
+       else if(::e.Xs()==34)
+	 ::e.symdis(15*34,200);
+       else if(::e.Xs()==35)
+	 ::e.symdis(16*34,200);
+       else if(::e.Xs()==36)
+	 ::e.symdis(17*34,200);
+       else if(::e.Xs()==49)
+	 ::e.symdis(12*34,235);
+       else if(::e.Xs()==50)
+	 ::e.symdis(13*34,235);
+       else if(::e.Xs()==51)
+	 ::e.symdis(14*34,235);
+       else if(::e.Xs()==52)
+	 ::e.symdis(15*34,235);
+       else if(::e.Xs()==53)
+	 ::e.symdis(16*34,235);
+       else if(::e.Xs()==54)
+	 ::e.symdis(17*34,235);
+       else if(::e.Xs()==81)
+	 ::e.symdis(12*34,270);
+       else if(::e.Xs()==81)
+	 ::e.symdis(12*34,270);
+       else if(::e.Xs()==82)
+	 ::e.symdis(13*34,270);
+       else if(::e.Xs()==83)
+	 ::e.symdis(14*34,270);
+       else if(::e.Xs()==84)
+	 ::e.symdis(15*34,270);
+       else if(::e.Xs()==85)
+	 ::e.symdis(16*34,270);
+       else if(::e.Xs()==86)
+	 ::e.symdis(17*34,270);
+       else if(::e.Xs()==113)
+	 ::e.symdis(12*34,305);
+       else if(::e.Xs()==114)
+	 ::e.symdis(13*34,305);
+       else if(::e.Xs()==115)
+	 ::e.symdis(14*34,305);
+       else if(::e.Xs()==116)
+	 ::e.symdis(15*34,305);
+       else if(::e.Xs()==117)
+	 ::e.symdis(16*34,305);
+       else if(::e.Xs()==118)
+	 ::e.symdis(17*34,305);
+       else if(::e.Xs()==19)
+	 ::e.symdis(0*34,200);
+       else if(::e.Xs()==20)
+	 ::e.symdis(1*34,200);
+       else if(::e.Xs()==21)
+	 ::e.symdis(2*34,200);
+       else if(::e.Xs()==22)
+	 ::e.symdis(3*34,200);
+       else if(::e.Xs()==23)
+	 ::e.symdis(4*34,200);
+       else if(::e.Xs()==24)
+	 ::e.symdis(5*34,200);
+       else if(::e.Xs()==25)
+	 ::e.symdis(6*34,200);
+       else if(::e.Xs()==26)
+	 ::e.symdis(7*34,200);
+       else if(::e.Xs()==27)
+	 ::e.symdis(8*34,200);
+       else if(::e.Xs()==28)
+	 ::e.symdis(9*34,200);
+       else if(::e.Xs()==29)
+	 ::e.symdis(10*34,200);
+       else if(::e.Xs()==30)
+	 ::e.symdis(11*34,200);
+       else if(::e.Xs()==37)
+	 ::e.symdis(0*34,235);
+       else if(::e.Xs()==38)
+	 ::e.symdis(1*34,235);
+       else if(::e.Xs()==39)
+	 ::e.symdis(2*34,235);
+       else if(::e.Xs()==40)
+	 ::e.symdis(3*34,235);
+       else if(::e.Xs()==41)
+	 ::e.symdis(4*34,235);
+
+     if(::e.Xs()==42)
+	 ::e.symdis(5*34,235);
+     else if(::e.Xs()==43)
+	 ::e.symdis(6*34,235);
+     else if(::e.Xs()==44)
+	 ::e.symdis(7*34,235);
+     else if(::e.Xs()==45)
+	 ::e.symdis(8*34,235);
+     else if(::e.Xs()==46)
+	 ::e.symdis(9*34,235);
+     else if(::e.Xs()==47)
+	 ::e.symdis(10*34,235);
+     else if(::e.Xs()==48)
+	 ::e.symdis(11*34,235);
+     else if(::e.Xs()==55)
+	 ::e.symdis(0*34,270);
+     else if(::e.Xs()==56)
+	 ::e.symdis(1*34,270);
+     else if(::e.Xs()==57)
+	 ::e.symdis(2*34,270);
+     else if(::e.Xs()==72)
+	 ::e.symdis(3*34,270);
+     else if(::e.Xs()==73)
+	 ::e.symdis(4*34,270);
+     else if(::e.Xs()==74)
+	 ::e.symdis(5*34,270);
+     else if(::e.Xs()==75)
+	 ::e.symdis(6*34,270);
+     else if(::e.Xs()==76)
+	 ::e.symdis(7*34,270);
+     else if(::e.Xs()==77)
+	 ::e.symdis(8*34,270);
+     else if(::e.Xs()==78)
+	 ::e.symdis(9*34,270);
+     else if(::e.Xs()==79)
+	 ::e.symdis(10*34,270);
+     else if(::e.Xs()==80)
+	 ::e.symdis(11*34,270);
+     else if(::e.Xs()==87)
+	 ::e.symdis(0*34,305);
+     else if(::e.Xs()==88)
+	 ::e.symdis(1*34,305);
+     else if(::e.Xs()==89)
+	 ::e.symdis(2*34,305);
+     else if(::e.Xs()==104)
+	 ::e.symdis(3*34,305);
+     else if(::e.Xs()==105)
+	 ::e.symdis(4*34,305);
+     else if(::e.Xs()==106)
+	 ::e.symdis(5*34,305);
+     else if(::e.Xs()==107)
+	 ::e.symdis(6*34,305);
+     else if(::e.Xs()==108)
+	 ::e.symdis(7*34,305);
+     else if(::e.Xs()==109)
+	 ::e.symdis(8*34,305);
+     else if(::e.Xs()==110)
+	 ::e.symdis(9*34,305);
+     else if(::e.Xs()==111)
+	 ::e.symdis(10*34,305);
+     else if(::e.Xs()==112)
+	 ::e.symdis(11*34,305);
+
+     if(::e.Xs()==58)
+	 ::e.symdis(3*34,360);    // Lanthanoids
+     else if(::e.Xs()==59)
+	 ::e.symdis(4*34,360);
+     else if(::e.Xs()==60)
+	 ::e.symdis(5*34,360);
+     else if(::e.Xs()==61)
+	 ::e.symdis(6*34,360);
+     else if(::e.Xs()==62)
+	 ::e.symdis(7*34,360);
+     else if(::e.Xs()==63)
+	 ::e.symdis(8*34,360);
+     else if(::e.Xs()==64)
+	 ::e.symdis(9*34,360);
+     else if(::e.Xs()==65)
+	 ::e.symdis(10*34,360);
+     else if(::e.Xs()==66)
+	 ::e.symdis(11*34,360);
+     else if(::e.Xs()==67)
+	 ::e.symdis(12*34,360);
+     else if(::e.Xs()==68)
+	 ::e.symdis(13*34,360);
+     else if(::e.Xs()==69)
+	 ::e.symdis(14*34,360);
+     else if(::e.Xs()==70)
+	 ::e.symdis(15*34,360);
+     else if(::e.Xs()==71)
+	 ::e.symdis(16*34,360);
+
+     if(::e.Xs()==90)
+	 ::e.symdis(3*34,395);
+     else if(::e.Xs()==91)
+	 ::e.symdis(4*34,395);
+     else if(::e.Xs()==92)
+	 ::e.symdis(5*34,395);
+     else if(::e.Xs()==93)
+	 ::e.symdis(6*34,395);
+     else if(::e.Xs()==94)
+	 ::e.symdis(7*34,395);
+     else if(::e.Xs()==95)
+	 ::e.symdis(8*34,395);
+     else if(::e.Xs()==96)
+	 ::e.symdis(9*34,395);
+     else if(::e.Xs()==97)
+	 ::e.symdis(10*34,395);
+     else if(::e.Xs()==98)
+	 ::e.symdis(11*34,395);
+     else if(::e.Xs()==99)
+	 ::e.symdis(12*34,395);
+     else if(::e.Xs()==100)
+	 ::e.symdis(13*34,395);
+     else if(::e.Xs()==101)
+	 ::e.symdis(14*34,395);
+     else if(::e.Xs()==102)
+	 ::e.symdis(15*34,395);
+     else if(::e.Xs()==103)
+	 ::e.symdis(16*34,395);
+     }
+     setcolor(LIGHTRED);
+     outtextxy(100,30,"Alkali metals");
+     setcolor(LIGHTBLUE);
+     outtextxy(255,30,"Alkali earth metals");
+     setcolor(GREEN);
+     outtextxy(100,55,"Semiconductors");
+     setcolor(MAGENTA);
+     outtextxy(255,55,"Transition elements");
+     setcolor(LIGHTGREEN);
+     outtextxy(100,80,"Non-Metals");
+     setcolor(CYAN);
+     outtextxy(255,80,"Post Transition metals");
+     setcolor(BLUE);
+     outtextxy(100,105,"Nole gases");
+     setcolor(LIGHTGRAY);
+     outtextxy(255,105,"Unknown");
+
+     setcolor(WHITE);
+     settextstyle(6,0,2);
+     outtextxy(170,10,"THE DIGITAL PERIODIC TABLE");
+
+     settextstyle(3,0,1);
+     outtextxy(0,367,"Lanthanoids");
+     outtextxy(0,400,"Actinoids");
+
+     ::f.close();
+}
+
+void info()
+{
+   ::f.open("pt.dat",ios::binary|ios::in);
+   int n;
+   outtextxy(30,60,"Enter the atomic number of the element you wish information about \n");
+   gotoxy(40,10);
+   cin>>n;
+   cleardevice();
+
+   ::f.seekg(0);
+
+   if(!::f)
+   {
+     outtextxy(200,200,"No link");
+     exit(0); }
+
+     while(!::f.eof())
+     {
+      f.read((char*)&::e,sizeof(::e));
+      if(::e.Xs()==n)
+      {
+	::e.display();
+      }
+     }
+
+   ::f.close();
+}
+void game()
+{
+  int rounds,choice2;
+  int y,z,score=0;
+  char c;
+  ::f.open("pt.dat",ios::binary|ios::in);
+  char ch[15];
+  char temp3[5],temp4[5],temp5[5];
+  outtextxy(300,50,"INSTRUCTIONS");
+  settextstyle(6,0,1);
+  outtextxy(20,100,"1) This is a simple game, to test you!");
+  outtextxy(20,120,"2) You are required to guess the element name, given the atomic no. on screen");
+  outtextxy(20,140,"3) There exists 3 levels:Beginner,Intermediate and Master");
+  outtextxy(20,160,"4) Each level have a certain number of rounds to play for");
+  outtextxy(20,180,"5) The program will ABORT if your guess is INCORRECT!!");
+  outtextxy(200,200,"CHOOSE WISELY!!");
+  outtextxy(20,220,"Enter your choice CHALLENGER");
+  choice2=getch();
+  sprintf(temp5,"%c",choice2);
+  moveto(300,220);
+  outtext(temp5);
+  if(choice2=='1')
+    rounds=5;
+  else if(choice2=='2')
+    rounds=10;
+  else if(choice2=='3')
+    rounds=20;
+
+  getch();
+  cleardevice();
+
+  settextstyle(7,0,3);
+  outtextxy(230,10,"GAME TIME!!");
+  setcolor(14);
+  rectangle(50,40,600,450);
+
+  setcolor(WHITE);
+  settextstyle(3,0,2);
+  for(int i=0;i<rounds;i++)
+  {
+   f.seekg(0);
+   randomize();
+   y=random(118)+1;
+   outtextxy(200,65,"Your question is: ");
+   moveto(480,65);
+   sprintf(temp3,"%d",y);
+   outtext(temp3);
+   outtextxy(200,100,"Answer: ");
+   gotoxy(38,8);
+   gets(ch);
+    if(y!=0)
+   {
+    while(!::f.eof())
+    {
+    ::f.read((char*)&::e,sizeof(::e));
+      if(::e.Xs()==y)
+      {
+       z=::e.check(ch);
+       if(z==1)
+	{
+	 outtextxy(200,130,"Right answer");
+	 score++;
+	 sprintf(temp3,"Score= %d",score);
+	 moveto(200,160);
+	 outtext(temp3);
+	 getch();
+	 cleardevice();
+	 rectangle(50,40,600,450);
+	 break;
+	}
+       else
+	{
+	 outtextxy(200,130,"Wrong answer buddy");
+	 outtextxy(200,160,"Better luck next time");
+	 outtextxy(200,300,"Your final score is:");
+	 moveto(300,320);
+	 sprintf(temp4,"%d",score);
+	 outtext(temp4);
+	 getch();
+	 goto loop;
+	 //exit(0);
+	}
+      }
+    }
+  }
+ }
+  outtextxy(200,140,"Your final score is:");
+  moveto(300,180);
+  sprintf(temp3,"%d",score);
+  outtext(temp3);
+
+  loop:
+  getch();
+  cleardevice();
+
+  rectangle(50,40,600,450);
+  if(score==rounds)
+  {
+   settextstyle(5,0,5);
+   outtextxy(100,50,"You did it CHALLENGER");
+   outtextxy(185,90,"You beat me!!");
+   settextstyle(5,0,6);
+   outtextxy(190,240,"FAREWELL");
+   settextstyle(3,0,1);
+  }
+
+  ::f.close();
+  getch();
+}
+void graph()
+{
+  int gd=DETECT;
+  int gm;
+  initgraph(&gd,&gm,"C:\\turboc3\\BGI");
+}
+
+void main()
+{
+  int choice=0;
+  loading();
+  graph();
+  char ch;
+  do
+  {
+   settextstyle(3,0,1);
+   cleardevice();
+   outtextxy(75,100,"Welcome....");
+   outtextxy(75,150,"Choose what you would like to do??");
+   outtextxy(75,175,"Press 1, for the Periodic Table");
+   outtextxy(75,200,"Press 2, if you would like to know about an element");
+   outtextxy(75,225,"press 3, if you would like to play a game");
+   outtextxy(75,250,"Press 4, if you want to QUIT");
+   outtextxy(75,300,"Enter your choice");
+   char temp[3];
+
+     choice=getch();
+     sprintf(temp,"%c",choice);
+     moveto(400,300);
+     outtext(temp);
+     delay(1000);
+     getch();
+
+    cleardevice();
+
+    if(choice>='0'&&choice<='4')
+    {
+    switch(choice)
+    {
+      case '1':
+       periodic();
+       break;
+
+      case '2':
+       info();
+       break;
+
+      case '3':
+       game();
+       break;
+
+      case '4':
+       exit(0);
+     }
+    }
+    else
+    {
+      outtextxy(100,300,"Invalid input");
+    }
+
+    char temp2[2];
+
+    outtextxy(50,450,"Do you want to continue??");
+    ch=getch();
+    sprintf(temp2,"%c",ch);
+    moveto(400,450);
+    outtext(temp2);
+    delay(1000);
+    getch();
+
+    }while(ch=='y'||ch=='Y');
+
+  getch();
+  closegraph();
+}
